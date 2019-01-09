@@ -43,15 +43,15 @@ footer {
 }
 
 #start {
-  position: fixed;
-  left: 400px;
-  top: 250px;
   font-size: 32px;
-  border: none;
   font-weight: bold;
+  position: relative;
+  top: 50%;
+  left: 45%;
+  margin-top: 150px;
 }
 
-#start:hover, #no:hover {
+#start:hover, #no:hover, a:hover {
   color: #219d7e;
 }
 
@@ -89,18 +89,31 @@ footer {
 }
 
 
-button, #yes, #no {
+button, a, #yes, #no {
   border: none;
   font-size: 20px;
+  text-align: center;
 }
 
-#basic-map {
+#basic-map, #pink-map {
    position: relative;
    top: 50%;
    left: 50%;
    width: 700px;
    height: 700px;
-   margin-top: -100px; /* Half the height */
+   margin-top: 100px; /* Half the height */
    margin-left: -350px; /* Half the width */
    margin-bottom: 250px;
+}
+
+.character {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  margin-top: 100px; /* Half the height */
+  margin-left: -350px; /* Half the width */
+  margin-bottom: 250px;
+}
 }
