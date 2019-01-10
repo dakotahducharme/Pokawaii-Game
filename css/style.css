@@ -24,7 +24,7 @@ ul {
   font-family: 'Fredoka One', cursive;
 }
 
-li {
+li, button {
   display: inline;
   padding-right: 75px;
   color: black;
@@ -93,27 +93,40 @@ button, a, #yes, #no {
   border: none;
   font-size: 20px;
   text-align: center;
+  cursor: pointer;
 }
 
-#basic-map, #pink-map {
-   position: relative;
-   top: 50%;
-   left: 50%;
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#game {
    width: 700px;
    height: 700px;
-   margin-top: 100px; /* Half the height */
-   margin-left: -350px; /* Half the width */
-   margin-bottom: 250px;
+   background-size: 700px 700px;
 }
 
-.character {
+#character {
   position: relative;
-  top: 50%;
-  left: 50%;
-  width: 150px;
-  height: 150px;
-  margin-top: 100px; /* Half the height */
-  margin-left: -350px; /* Half the width */
-  margin-bottom: 250px;
+  width: 50px;
+  top: 0;
+  left: 0;
 }
+
+#character-select {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.coin {
+  height: 15px;
+  width: 15px;
+  position: relative;
+  border-radius: 50%;
+  border: 3px solid gold;
+  background: yellow;
 }
