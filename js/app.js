@@ -10,29 +10,47 @@ const options = {
   sakura: {
     character: 'sakura-char.png',
     map: 'pink-sakura.gif',
+    coin: 'ramen.gif',
+    prize: 'eevee.png',
   },
   link: {
     character: 'link-char.png',
     map: 'map.gif',
+    coin: 'rupee.gif',
+    prize: 'eevee.png',
   },
   zelda: {
-    character: 'zelda-char.png',
+    character: 'zelda-char.gif',
     map: 'map.gif',
+    coin: 'rupee.gif',
+    prize: 'mew.gif',
   },
   naruto: {
     character: 'naruto-char.png',
     map: 'map.gif',
+    coin: 'ramen.gif',
+    prize: 'eevee.png',
   },
 }
-const coins = [
-  {top: 20, left: 200},
-  {top: 200, left: 40},
-  {top: 35, left: 665},
-  {top: 80, left: 400},
-  {top: 450, left: 30},
-  {top: 600, left: 350},
-  {top: 300, left: 300},
-]
+
+const coinCount = 10;
+const coinSize = {
+  x: 25,
+  y: 35,
+}
+
+let coins = []
+
+function generateCoinCoordinates(coinCount) {
+  for (var i = 0; i < coinCount; i++) {
+    const {x, y} = generateRandomCoordinates({x: gameSize.width - coinSize.x, y: gameSize.height - coinSize.y});
+    coins.push({top: y, left: x});
+  }
+}
+
+generateCoinCoordinates(coinCount);
+console.log(coins)
+
 // controls
 const UP = ['Up', 'ArrowUp', 'w']
 const DOWN = ['Down', 'ArrowDown', 's']
@@ -61,26 +79,27 @@ function setupCharacterSelect() {
 
 
 //loads map, character and coins, listen for key presses
-function loadGame ({character, map}) {
+function loadGame ({character, map, coin, prize}) {
   $('.homepage').remove();
-  $('#game').css("background-image", `url('${map}')`)
-  $('#game').append(`<img id="character" src="${character}">`)
+  $('#game').css("background-image", `url('${map}')`);
+  $('#game').append(`<img id="character" src="${character}"/>`);
+  $('#game').append(`<img id="prize" src="${prize}"/>`);
   for (var i = 0; i < coins.length; i++) {
-    placeCoin({...coins[i], id: i});
+    placeCoin({...coins[i], id: i, coin});
   }
   $(document).on('keydown', (e) => keyPressHandler(e));
 }
 
 // places coins on map
-function placeCoin({top, left, id}) {
-  $('#game').append(`<div id='coin-${id}' class="coin"/>`)
+function placeCoin({top, left, id, coin}) {
+  $('#game').append(`<img id='coin-${id}' src="${coin}" class="coin"/>`);
   $(`#coin-${id}`).css({"top":top, "left":left});
 }
 
 //telling the character to "move" on keypress
 function keyPressHandler(e) {
-  const {top, left} = getCharacterPosition();
-  const {height, width} = getCharacterSize();
+  const {top, left} = getGameObjectPosition(getCharacter());
+  const {height, width} = getGameObjectSize(getCharacter());
 
   if (RIGHT.includes(e.key)) {
     if (left + width <= gameSize.width - moveDistance) {
@@ -111,6 +130,10 @@ function keyPressHandler(e) {
       });
     }
   }
+  checkForCoinCollisions();
+  if (checkForWin()) {
+    $('#prize').css("display", "block")
+  }
 }
 
 // getter for character
@@ -118,11 +141,15 @@ function getCharacter() {
   return $('#character');
 }
 
+function getCoin(i) {
+  return $(`#coin-${i}`);
+}
+
 // getter for character position
-function getCharacterPosition() {
+function getGameObjectPosition(gameObject) {
   return {
-    top: parseInt(getCharacter().css('top')),
-    left: parseInt(getCharacter().css('left')),
+    top: parseInt(gameObject.css('top')),
+    left: parseInt(gameObject.css('left')),
   }
 }
 
@@ -132,10 +159,10 @@ function setCharacterPosition({top, left}) {
 }
 
 // getter for character size
-function getCharacterSize() {
+function getGameObjectSize(gameObject) {
   return {
-    height: parseInt(getCharacter().css('height')),
-    width: parseInt(getCharacter().css('width')),
+    height: parseInt(gameObject.css('height')),
+    width: parseInt(gameObject.css('width')),
   }
 }
 
@@ -143,3 +170,75 @@ function getCharacterSize() {
 $('#start').on('click', function() {
   setupCharacterSelect();
 });
+
+function getGameObjectBox(gameObject) {
+  const {top, left} = getGameObjectPosition(gameObject);
+  const {height, width} = getGameObjectSize(gameObject);
+  return {
+    x: {
+      start: left,
+      end: left + width
+    },
+    y: {
+      start: top,
+      end: top + height,
+    },
+  }
+}
+
+function checkForCollision(object1, object2) {
+  const object1Box = getGameObjectBox(object1);
+  const object2Box = getGameObjectBox(object2);
+  if (axisOverlap(object1Box.x, object2Box.x) && axisOverlap(object1Box.y, object2Box.y) ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkForCoinCollisions() {
+  for (var i = 0; i < coins.length; i++) {
+    let collide = checkForCollision(
+      getCharacter(),
+      getCoin(i)
+    );
+    if (collide) {
+      getCoin(i).remove();
+    }
+  }
+}
+
+function checkForWin() {
+  if ($(`.coin`).length === 0) {
+    return true;
+  }
+}
+
+function axisOverlap(range1, range2) {
+  if (
+    // range2.start inside range1
+    (range1.start <= range2.start && range2.start <= range1.end)
+    // range2.end inside range1
+    || (range1.start <= range2.end && range2.end <= range1.end)
+    // range1.start inside range2
+    || (range2.start <= range1.start && range1.start <= range2.end)
+    // range1.end inside range2
+    || (range2.start <= range1.end && range1.end <= range2.end)
+  ) {
+    return true
+  } else {
+    return false
+  }
+}
+
+function generateRandomCoordinates({x, y}) {
+  return {
+    x: getRandomInt(x),
+    y: getRandomInt(y),
+  }
+}
+
+//helper for random numbers
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}

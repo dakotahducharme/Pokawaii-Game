@@ -11,6 +11,8 @@ h1 {
 body {
   font-family: helvetica;
   margin: 0 auto;
+  background: url('https://i.pinimg.com/750x/ef/9f/bb/ef9fbbd9dd0d6ec09e356a49a5250b02.jpg');
+  background-size: cover;
 }
 
 a {
@@ -49,10 +51,11 @@ footer {
   top: 50%;
   left: 45%;
   margin-top: 150px;
+  background: none;
 }
 
 #start:hover, #no:hover, a:hover {
-  color: #219d7e;
+  color: white;
 }
 
 
@@ -68,11 +71,13 @@ footer {
 
 #zelda {
   color: #FFFFFF;
+  opacity: 0;
 }
 
 #zelda:hover {
   color: black;
   font-weight: bold;
+  opacity: 100%;
 }
 
 #ask-name, #map-color, .welcome {
@@ -94,6 +99,7 @@ button, a, #yes, #no {
   font-size: 20px;
   text-align: center;
   cursor: pointer;
+  background: none;
 }
 
 .container {
@@ -107,6 +113,7 @@ button, a, #yes, #no {
    width: 700px;
    height: 700px;
    background-size: 700px 700px;
+   position: relative;
 }
 
 #character {
@@ -123,10 +130,15 @@ button, a, #yes, #no {
 }
 
 .coin {
-  height: 15px;
-  width: 15px;
-  position: relative;
-  border-radius: 50%;
-  border: 3px solid gold;
-  background: yellow;
+  width: 25px;
+  position: absolute;
+  display: block;
+}
+
+#prize {
+  display: none;
+  position: absolute;
+  width: 250px;
+  top: 225px;
+  left: 225px;
 }
