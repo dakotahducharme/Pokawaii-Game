@@ -71,13 +71,13 @@ footer {
 
 #zelda {
   color: #FFFFFF;
-  opacity: 0;
+  opacity: 0.35;
 }
 
 #zelda:hover {
   color: black;
   font-weight: bold;
-  opacity: 100%;
+  opacity: 1;
 }
 
 #ask-name, #map-color, .homepage p {
