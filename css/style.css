@@ -80,7 +80,7 @@ footer {
   opacity: 100%;
 }
 
-#ask-name, #map-color, .welcome {
+#ask-name, #map-color, .homepage p {
   padding-top: 60px;
   text-align: center;
   font-size: 28px;

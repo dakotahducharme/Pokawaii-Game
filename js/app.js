@@ -36,7 +36,7 @@ const options = {
 const coinCount = 10;
 const coinSize = {
   x: 25,
-  y: 35,
+  y: 40,
 }
 
 let coins = []
@@ -214,16 +214,20 @@ function checkForWin() {
   }
 }
 
+function between(checking, start, end) {
+  return (start <= checking && checking <= end);
+}
+
 function axisOverlap(range1, range2) {
   if (
     // range2.start inside range1
-    (range1.start <= range2.start && range2.start <= range1.end)
+    between(range2.start, range1.start, range1.end)
     // range2.end inside range1
-    || (range1.start <= range2.end && range2.end <= range1.end)
+    || between(range2.end, range1.start, range1.end)
     // range1.start inside range2
-    || (range2.start <= range1.start && range1.start <= range2.end)
+    || between(range1.start, range2.start, range2.end)
     // range1.end inside range2
-    || (range2.start <= range1.end && range1.end <= range2.end)
+    || between(range1.end, range2.start, range2.end)
   ) {
     return true
   } else {
