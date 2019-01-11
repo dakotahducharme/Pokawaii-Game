@@ -45,3 +45,7 @@ BONUS features:
 Lots of CSS and ability to change character speed through the editor by setting the variable "moveDistance: "
 
 Personalizing each character by giving them specific coins, prizes, etc.
+
+## Wire frames
+
+![Link to wireframes](wireframe.pdf)
